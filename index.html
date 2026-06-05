@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans Thai', 'Space Grotesk', sans-serif;
+    background: #060d1a;
+    color: #e8f0fe;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  .hero {
+    background: linear-gradient(135deg, #060d1a 0%, #0a1628 50%, #061520 100%);
+    padding: 56px 32px 40px;
+    text-align: center;
+    position: relative;
+    border-bottom: 1px solid rgba(9,209,199,0.15);
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -80px; left: 50%; transform: translateX(-50%);
+    width: 500px; height: 300px;
+    background: radial-gradient(ellipse, rgba(9,209,199,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(9,209,199,0.1);
+    border: 1px solid rgba(9,209,199,0.3);
+    border-radius: 100px;
+    padding: 6px 18px;
+    font-size: 12px;
+    color: #09d1c7;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    font-weight: 600;
+  }
+
+  .hero h1 {
+    font-size: 34px;
+    font-weight: 800;
+    background: linear-gradient(135deg, #fff 30%, #09d1c7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1.15;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    color: rgba(232,240,254,0.55);
+    font-size: 14px;
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .content { padding: 0 20px 60px; max-width: 720px; margin: 0 auto; }
+
+  /* Step */
+  .step {
+    margin-top: 48px;
+    position: relative;
+  }
+
+  .step-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+  }
+
+  .step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #09d1c7, #0691c7);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; font-weight: 800;
+    color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 0 24px rgba(9,209,199,0.35);
+  }
+
+  .step-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .step-sub {
+    font-size: 13px;
+    color: rgba(232,240,254,0.45);
+    margin-top: 3px;
+  }
+
+  /* Phone mockup */
+  .phone-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 24px 0;
+  }
+
+  .phone {
+    width: 220px;
+    background: #101c2e;
+    border-radius: 38px;
+    border: 2px solid rgba(9,209,199,0.25);
+    box-shadow:
+      0 0 0 1px rgba(255,255,255,0.05),
+      0 20px 60px rgba(0,0,0,0.7),
+      0 0 40px rgba(9,209,199,0.08),
+      inset 0 1px 0 rgba(255,255,255,0.08);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .phone-notch {
+    width: 80px; height: 20px;
+    background: #101c2e;
+    border-radius: 0 0 14px 14px;
+    margin: 0 auto;
+    position: absolute;
+    top: 0; left: 50%; transform: translateX(-50%);
+    z-index: 2;
+    border: 2px solid rgba(9,209,199,0.2);
+    border-top: none;
+  }
+
+  .phone-screen {
+    width: 100%;
+    display: block;
+    border-radius: 36px;
+  }
+
+  .phone-caption {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 12px;
+    color: rgba(232,240,254,0.45);
+  }
+
+  /* Screen with glow */
+  .phone-glow {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: 36px;
+    background: linear-gradient(
+      180deg,
+      rgba(9,209,199,0.06) 0%,
+      transparent 30%,
+      transparent 70%,
+      rgba(9,209,199,0.04) 100%
+    );
+    pointer-events: none;
+    z-index: 3;
+  }
+
+  /* Info cards */
+  .info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 20px 0;
+  }
+
+  .info-card {
+    background: rgba(9,209,199,0.05);
+    border: 1px solid rgba(9,209,199,0.15);
+    border-radius: 16px;
+    padding: 16px;
+  }
+
+  .info-card .icon {
+    font-size: 22px;
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .info-card .label {
+    font-size: 11px;
+    color: rgba(232,240,254,0.45);
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  .info-card .val {
+    font-size: 14px;
+    font-weight: 600;
+    color: #e8f0fe;
+    line-height: 1.4;
+  }
+
+  /* Steps list */
+  .steps-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin: 20px 0;
+  }
+
+  .steps-list li {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 14px;
+    padding: 14px 16px;
+    transition: border-color 0.2s;
+  }
+
+  .steps-list li:hover {
+    border-color: rgba(9,209,199,0.25);
+  }
+
+  .step-dot {
+    width: 26px; height: 26px;
+    border-radius: 50%;
+    background: rgba(9,209,199,0.12);
+    border: 1.5px solid rgba(9,209,199,0.35);
+    color: #09d1c7;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  .step-text strong {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+
+  .step-text span {
+    font-size: 12px;
+    color: rgba(232,240,254,0.5);
+    line-height: 1.5;
+  }
+
+  /* Tip */
+  .tip {
+    background: rgba(255,183,0,0.07);
+    border-left: 3px solid #FFB700;
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: rgba(232,240,254,0.8);
+    line-height: 1.6;
+  }
+
+  .tip strong { color: #FFB700; font-weight: 700; }
+
+  /* Alert */
+  .alert-success {
+    background: rgba(9,209,199,0.07);
+    border-left: 3px solid #09d1c7;
+    border-radius: 0 12px 12px 0;
+    padding: 14px 16px;
+    margin: 20px 0;
+    font-size: 13px;
+    color: rgba(232,240,254,0.8);
+    line-height: 1.6;
+  }
+  .alert-success strong { color: #09d1c7; }
+
+  /* Section divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(9,209,199,0.2), transparent);
+    margin: 40px 0 0;
+  }
+
+  /* Bottom tabs visual */
+  .tabs-vis {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 16px;
+    padding: 16px;
+    display: flex;
+    justify-content: space-around;
+    margin: 20px 0;
+  }
+
+  .tab-item {
+    text-align: center;
+    font-size: 11px;
+    color: rgba(232,240,254,0.4);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .tab-item.active {
+    color: #09d1c7;
+  }
+
+  .tab-icon {
+    width: 36px; height: 36px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+
+  .tab-item.active .tab-icon {
+    background: rgba(9,209,199,0.15);
+  }
+
+  /* Pill badge */
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(9,209,199,0.12);
+    border: 1px solid rgba(9,209,199,0.25);
+    border-radius: 100px;
+    padding: 3px 12px;
+    font-size: 11px;
+    font-weight: 600;
+    color: #09d1c7;
+    letter-spacing: 0.05em;
+  }
+
+  .badge.amber {
+    background: rgba(255,183,0,0.1);
+    border-color: rgba(255,183,0,0.25);
+    color: #FFB700;
+  }
+
+  .badge.red {
+    background: rgba(255,77,77,0.1);
+    border-color: rgba(255,77,77,0.25);
+    color: #FF6B6B;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">📋 คู่มือการใช้งาน</div>
+  <h1>StockScan IDC-3<br>การเบิกอุปกรณ์ด้วย QR</h1>
+  <p>ระบบเบิก–คืนอุปกรณ์สำหรับพนักงาน INET IDC-3<br>สแกน QR แล้วเบิกได้ทันที ไม่ต้องเขียนใบ</p>
+</div>
+
+<div class="content">
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">1</div>
+      <div>
+        <div class="step-title">เข้าสู่ระบบ</div>
+        <div class="step-sub">ใช้รหัสพนักงานและรหัสผ่านของคุณ</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <img class="phone-screen" src="./Screenshot 2026-06-05 232329.png" alt="หน้า Login" />
+          <div class="phone-glow"></div>
+        </div>
+        <div class="phone-caption">หน้าเข้าสู่ระบบ</div>
+      </div>
+    </div>
+
+    <ul class="steps-list">
+      <li>
+        <div class="step-dot">1</div>
+        <div class="step-text">
+          <strong>กรอกรหัสพนักงาน</strong>
+          <span>เช่น <code style="color:#09d1c7;font-size:11px">OD1162769</code> — ตัวอักษรพิมพ์ใหญ่ตามด้วยตัวเลข</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">2</div>
+        <div class="step-text">
+          <strong>กรอกรหัสผ่าน</strong>
+          <span>ครั้งแรก: รหัสผ่านคือตัวเลขท้ายรหัสพนักงาน เช่น OD1100000 → <code style="color:#09d1c7;font-size:11px">1100000</code></span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">3</div>
+        <div class="step-text">
+          <strong>กด "เข้าสู่ระบบ →"</strong>
+          <span>ระบบจะพาไปยังหน้า Portal หลัก</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">2</div>
+      <div>
+        <div class="step-title">เลือก StockScan</div>
+        <div class="step-sub">จากหน้า Portal ของ IDC-3</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <img class="phone-screen" src="./Screenshot 2026-06-06 001826.png" alt="Portal" />
+          <div class="phone-glow"></div>
+        </div>
+        <div class="phone-caption">หน้า Portal IDC-3</div>
+      </div>
+    </div>
+
+    <ul class="steps-list">
+      <li>
+        <div class="step-dot">📦</div>
+        <div class="step-text">
+          <strong>แตะไอคอน StockScan</strong>
+          <span>ไอคอนกล่องสีส้ม ด้านซ้ายบน — ระบบจัดการสต็อกอุปกรณ์ IDC-3</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">3</div>
+      <div>
+        <div class="step-title">ดูภาพรวมสต็อก</div>
+        <div class="step-sub">หน้าแรกแสดงสถานะอุปกรณ์ทั้งหมด</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <img class="phone-screen" src="./Screenshot 2026-06-05 232401.png" alt="Dashboard" />
+          <div class="phone-glow"></div>
+        </div>
+        <div class="phone-caption">หน้าภาพรวม (Dashboard)</div>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-card">
+        <span class="icon">📦</span>
+        <div class="label">รายการทั้งหมด</div>
+        <div class="val">อุปกรณ์ที่อยู่ในระบบ</div>
+      </div>
+      <div class="info-card">
+        <span class="icon">✅</span>
+        <div class="label">ปกติ</div>
+        <div class="val">สต็อกเพียงพอ</div>
+      </div>
+      <div class="info-card" style="border-color:rgba(255,183,0,0.2);background:rgba(255,183,0,0.05)">
+        <span class="icon">⚠️</span>
+        <div class="label">ใกล้หมด</div>
+        <div class="val" style="color:#FFB700">สต็อกน้อยกว่าขั้นต่ำ</div>
+      </div>
+      <div class="info-card" style="border-color:rgba(255,77,77,0.2);background:rgba(255,77,77,0.05)">
+        <span class="icon">🚨</span>
+        <div class="label">หมดแล้ว</div>
+        <div class="val" style="color:#FF6B6B">ต้องเติมทันที</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 หมายเหตุ:</strong> รายการ <span class="badge amber">⚠️ ใกล้หมด</span> และ <span class="badge red">🚨 หมดแล้ว</span> จะแสดงด้านล่างปุ่มสแกนเสมอ เพื่อให้ระวังก่อนเบิก
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">4</div>
+      <div>
+        <div class="step-title">เลือกอุปกรณ์ที่ต้องการเบิก</div>
+        <div class="step-sub">สแกน QR หรือค้นหาด้วยชื่อ</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <img class="phone-screen" src="./Screenshot 2026-06-05 232423.png" alt="Scan List" />
+          <div class="phone-glow"></div>
+        </div>
+        <div class="phone-caption">หน้ารายการ / สแกน</div>
+      </div>
+    </div>
+
+    <ul class="steps-list">
+      <li>
+        <div class="step-dot">📷</div>
+        <div class="step-text">
+          <strong>วิธีที่ 1: สแกน QR Code</strong>
+          <span>กดปุ่ม <span class="badge">⊡ สแกน</span> กลางหน้าจอ แล้วจ่อกล้องไปที่ QR บนชั้นวางหรือซองอุปกรณ์</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">🔍</div>
+        <div class="step-text">
+          <strong>วิธีที่ 2: ค้นหาชื่อ</strong>
+          <span>พิมพ์ชื่ออุปกรณ์ในช่อง "ค้นหาด้วยชื่อหรือสแกน QR..." แล้วกดที่รายการที่ต้องการ</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">🏷️</div>
+        <div class="step-text">
+          <strong>กรองตามหมวดหมู่</strong>
+          <span>ใช้แถบกรอง: <strong>วัสดุสิ้นเปลือง</strong> / <strong>INET</strong> / <strong>ใกล้หมด</strong> / <strong>หมดแล้ว</strong></span>
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">5</div>
+      <div>
+        <div class="step-title">กรอกรายละเอียดการเบิก</div>
+        <div class="step-sub">ระบุจำนวน และงาน PM (ถ้ามี)</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <img class="phone-screen" src="./Screenshot 2026-06-05 232439.png" alt="Withdraw Form" />
+          <div class="phone-glow"></div>
+        </div>
+        <div class="phone-caption">หน้าฟอร์มเบิกอุปกรณ์</div>
+      </div>
+    </div>
+
+    <ul class="steps-list">
+      <li>
+        <div class="step-dot">🔧</div>
+        <div class="step-text">
+          <strong>เลือกงาน PM (ถ้ามี)</strong>
+          <span>หากเบิกเพื่องาน Preventive Maintenance ให้เลือกจาก dropdown "เลือกงาน PM (ถ้ามี)"</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">🔢</div>
+        <div class="step-text">
+          <strong>ระบุจำนวน</strong>
+          <span>กด <strong>+</strong> หรือ <strong>-</strong> เพื่อปรับจำนวน หรือพิมพ์ตัวเลขตรงกลาง</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">📝</div>
+        <div class="step-text">
+          <strong>หมายเหตุ (ถ้ามี)</strong>
+          <span>กรอกเหตุผลหรือรายละเอียดเพิ่มเติมในช่อง "ระบุหมายเหตุ..."</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">🛒</div>
+        <div class="step-text">
+          <strong>เพิ่มในตะกร้า หรือ ยืนยันเบิกทันที</strong>
+          <span>กด <span class="badge">🛒 เพิ่มในตะกร้า</span> เพื่อเบิกหลายรายการพร้อมกัน หรือกด <span class="badge">ยืนยัน เบิก</span> เพื่อเบิกทันที</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="tip">
+      <strong>🛒 ตะกร้า:</strong> ถ้าต้องการเบิกหลายรายการพร้อมกัน ให้สแกนทีละชิ้นแล้วกด "เพิ่มในตะกร้า" จนครบ แล้วค่อยยืนยันรวมกันครั้งเดียว
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num">6</div>
+      <div>
+        <div class="step-title">ยืนยันการเบิก</div>
+        <div class="step-sub">ตรวจสอบรายการและกดยืนยัน</div>
+      </div>
+    </div>
+
+    <div class="phone-wrap">
+      <div>
+        <div class="phone">
+          <div class="phone-notch"></div>
+          <img class="phone-screen" src="./Screenshot 2026-06-05 232456.png" alt="Confirm" />
+          <div class="phone-glow"></div>
+        </div>
+        <div class="phone-caption">หน้ายืนยันรายการ</div>
+      </div>
+    </div>
+
+    <ul class="steps-list">
+      <li>
+        <div class="step-dot">👁️</div>
+        <div class="step-text">
+          <strong>ตรวจสอบรายการในตะกร้า</strong>
+          <span>ระบบแสดงชื่ออุปกรณ์ จำนวน และสต็อกที่เหลือ ตรวจสอบให้ถูกต้อง</span>
+        </div>
+      </li>
+      <li>
+        <div class="step-dot">✅</div>
+        <div class="step-text">
+          <strong>กด "ยืนยันเบิก X รายการ (X ชิ้น)"</strong>
+          <span>ระบบจะบันทึกการเบิกในชื่อของคุณและหักสต็อกอัตโนมัติ</span>
+        </div>
+      </li>
+    </ul>
+
+    <div class="alert-success">
+      <strong>✅ เสร็จสิ้น!</strong> ระบบบันทึกการเบิกในชื่อผู้ดำเนินการ และแสดงประวัติใน Log การเบิกล่าสุด สต็อกจะอัปเดตทันที
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="step">
+    <div class="step-header">
+      <div class="step-num" style="background:rgba(255,255,255,0.1);box-shadow:none">🗺️</div>
+      <div>
+        <div class="step-title">การนำทางในแอป</div>
+        <div class="step-sub">แถบด้านล่างมี 5 ส่วน</div>
+      </div>
+    </div>
+
+    <div class="tabs-vis">
+      <div class="tab-item">
+        <div class="tab-icon">🏠</div>
+        <div>ภาพรวม</div>
+      </div>
+      <div class="tab-item">
+        <div class="tab-icon">📋</div>
+        <div>Log</div>
+      </div>
+      <div class="tab-item active">
+        <div class="tab-icon" style="background:rgba(9,209,199,0.2);border-radius:50%;width:48px;height:48px;margin-top:-8px;border:2px solid rgba(9,209,199,0.4)">⊡</div>
+        <div>สแกน/เบิก</div>
+      </div>
+      <div class="tab-item">
+        <div class="tab-icon">📦</div>
+        <div>เพิ่มอุปกรณ์</div>
+      </div>
+      <div class="tab-item">
+        <div class="tab-icon">⚙️</div>
+        <div>ตั้งค่า</div>
+      </div>
+    </div>
+
+    <div class="tip">
+      <strong>💡 ทางลัด:</strong> ปุ่มกลม <strong>⊡</strong> กลางจอล่าง คือปุ่มสแกนด่วน กดได้เลยจากทุกหน้า ไม่ต้องกลับไปหน้าแรก
+    </div>
+  </div>
+
+</div>
+</body>
+</html>
